@@ -36,6 +36,6 @@
     "tailwindcss": "^3.3.1"
   },
   "engines": {
-    "node": "＞=18.0.0"
+    "node": "24.x"
   }
 }
