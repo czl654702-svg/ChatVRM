@@ -8,6 +8,8 @@ export async function getChatResponse(messages: Message[], apiKey: string) {
 
   const configuration = new Configuration({
     apiKey: apiKey,
+    // 修改点1：添加 SiliconCloud 的基础地址，否则它会默认去连 OpenAI
+    basePath: "https://api.siliconflow.cn/v1",
   });
   // ブラウザからAPIを叩くときに発生するエラーを無くすworkaround
   // https://github.com/openai/openai-node/issues/6#issuecomment-1492814621
@@ -16,8 +18,7 @@ export async function getChatResponse(messages: Message[], apiKey: string) {
   const openai = new OpenAIApi(configuration);
 
   const { data } = await openai.createChatCompletion({
-    model: "Qwen/Qwen2.5-7B-Instruct
-",
+    model: "Qwen/Qwen2.5-7B-Instruct",
     messages: messages,
   });
 
@@ -39,11 +40,13 @@ export async function getChatResponseStream(
     "Content-Type": "application/json",
     Authorization: `Bearer ${apiKey}`,
   };
+
+  // 修改点2：确保 URL 是 SiliconCloud，并且模型名称正确
   const res = await fetch("https://api.siliconflow.cn/v1/chat/completions", {
     headers: headers,
     method: "POST",
     body: JSON.stringify({
-      model: "gpt-3.5-turbo",
+      model: "Qwen/Qwen2.5-7B-Instruct", // 这里之前是 gpt-3.5-turbo，已改为 Qwen
       messages: messages,
       stream: true,
       max_tokens: 200,
