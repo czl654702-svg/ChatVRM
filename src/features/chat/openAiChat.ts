@@ -16,7 +16,8 @@ export async function getChatResponse(messages: Message[], apiKey: string) {
   const openai = new OpenAIApi(configuration);
 
   const { data } = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
+    model: "Qwen/Qwen2.5-7B-Instruct
+",
     messages: messages,
   });
 
@@ -38,7 +39,7 @@ export async function getChatResponseStream(
     "Content-Type": "application/json",
     Authorization: `Bearer ${apiKey}`,
   };
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+  const res = await fetch("https://api.siliconflow.cn/v1/chat/completions", {
     headers: headers,
     method: "POST",
     body: JSON.stringify({
